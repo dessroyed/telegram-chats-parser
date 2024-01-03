@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чаты Telegram</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Чаты Telegram</h1>
+
+        <form action="/add_chat" method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="title" class="form-label">Название чата:</label>
+                <input type="text" name="title" id="title" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="keywords" class="form-label">Ключевые слова:</label>
+                <input type="text" name="keywords" id="keywords" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="stop_words" class="form-label">Стоп-слова:</label>
+                <input type="text" name="stop_words" id="stop_words" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Добавить чат</button>
+        </form>
+
+        <hr>
+
+        <h2 class="text-center my-4">Чаты</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Название чата</th>
+                    <th scope="col">Ключевые слова</th>
+                    <th scope="col">Стоп-слова</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chat in chats %}
+                <tr>
+                    <th scope="row">{{ chat[0] }}</th>
+                    <td>{{ chat[1] }}</td>
+                    <td>{{ chat[2] }}</td>
+                    <td>{{ chat[3] }}</td>
+                    <td>
+                        <form action="/delete_chat" method="POST">
+                            <input type="hidden" name="id" value="{{ chat[0] }}">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                        <form action="/edit_chat" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="{{ chat[0] }}">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Название чата:</label>
+                            <input type="text" name="title" id="title" class="form-control" value="{{ chat[1] }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="keywords" class="form-label">Ключевые слова:</label>
+                            <input type="text" name="keywords" id="keywords" class="form-control" value="{{ chat[2] }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="stop_words" class="form-label">Стоп-слова:</label>
+                            <input type="text" name="stop_words" id="stop_words" class="form-control" value="{{ chat[3] }}">
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Сохранить изменения</button>
+                    </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX2+254tk+" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xMp9MvcJ4AjXOSzwA+" crossorigin="anonymous"></script>
+</body>
+</html>
